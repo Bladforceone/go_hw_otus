@@ -1,4 +1,4 @@
-package init
+package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/Bladforceone/go_hw_otus/hw02_fix_app/types"
 )
 
-func init() {
+func main() {
 	var path string
 
 	fmt.Printf("Enter data file path: ")
