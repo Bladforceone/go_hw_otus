@@ -14,7 +14,5 @@ func main() {
 
 	book2 := book
 	book2.SetYear(1917)
-	ans, _ := book.Compare(book2, types.CompareByYear)
-	fmt.Printf("%t\n", ans)
 	fmt.Printf("Book title: %s, Author: %s, Year: %d\n", book.GetTitle(), book.GetAuthor(), book.GetYear())
 }
