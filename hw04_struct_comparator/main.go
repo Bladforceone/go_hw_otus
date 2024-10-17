@@ -18,7 +18,7 @@ func main() {
 
 	comp := comparator.Comparator{Mode: comparator.CompareByYear}
 
-	comp.Compare(book, book2)
+	fmt.Print(comp.Compare(book, book2))
 
 	fmt.Printf("Book title: %s, Author: %s, Year: %d\n", book.Title(), book.Author(), book.Year())
 }
