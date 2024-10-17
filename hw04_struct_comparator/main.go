@@ -16,7 +16,7 @@ func main() {
 	book2 := book
 	book2.SetYear(1917)
 
-	comp := comparator.Comparator{comparator.CompareByYear}
+	comp := comparator.Comparator{Mode: comparator.CompareByYear}
 
 	comp.Compare(book, book2)
 
