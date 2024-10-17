@@ -1,4 +1,4 @@
-package book
+package types
 
 import "fmt"
 
@@ -19,51 +19,51 @@ type Book struct {
 	rate   float32
 }
 
-func (b *Book) setID(id int) {
+func (b *Book) SetID(id int) {
 	b.id = id
 }
 
-func (b Book) getID() int {
+func (b Book) GetID() int {
 	return b.id
 }
 
-func (b *Book) setTitle(title string) {
+func (b *Book) SetTitle(title string) {
 	b.title = title
 }
 
-func (b Book) getTitle() string {
+func (b Book) GetTitle() string {
 	return b.title
 }
 
-func (b *Book) setAuthor(author string) {
+func (b *Book) SetAuthor(author string) {
 	b.author = author
 }
 
-func (b Book) getAuthor() string {
+func (b Book) GetAuthor() string {
 	return b.author
 }
 
-func (b *Book) setYear(year int) {
+func (b *Book) SetYear(year int) {
 	b.year = year
 }
 
-func (b Book) getYear() int {
+func (b Book) GetYear() int {
 	return b.year
 }
 
-func (b *Book) setSize(size int) {
+func (b *Book) SetSize(size int) {
 	b.size = size
 }
 
-func (b Book) getSize() int {
+func (b Book) GetSize() int {
 	return b.size
 }
 
-func (b *Book) setRate(rate float32) {
+func (b *Book) SetRate(rate float32) {
 	b.rate = rate
 }
 
-func (b Book) getRate() float32 {
+func (b Book) GetRate() float32 {
 	return b.rate
 }
 
