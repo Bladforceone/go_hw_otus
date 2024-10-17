@@ -1,3 +1,3 @@
-module github.com/fixme_my_friend/hw03_chessboard
+module github.com/Bladforceone/go_hw_otus/hw03_chessboard
 
 go 1.20
