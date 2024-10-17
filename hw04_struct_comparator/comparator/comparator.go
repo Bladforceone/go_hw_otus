@@ -14,9 +14,9 @@ const (
 	CompareByRate
 )
 
-type comparator struct{}
+type Comparator struct{}
 
-func (c comparator) Compare(b1, b2 types.Book, mod CompareMode) (bool, error) {
+func (c Comparator) Compare(b1, b2 types.Book, mod CompareMode) (bool, error) {
 	switch mod {
 	case CompareByRate:
 		return b1.Rate() > b2.Rate(), nil

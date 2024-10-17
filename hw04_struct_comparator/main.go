@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/Bladforceone/go_hw_otus/hw04_struct_comparator/comparator"
 	"github.com/Bladforceone/go_hw_otus/hw04_struct_comparator/types"
 )
 
@@ -14,5 +15,10 @@ func main() {
 
 	book2 := book
 	book2.SetYear(1917)
-	fmt.Printf("Book title: %s, Author: %s, Year: %d\n", book.GetTitle(), book.GetAuthor(), book.GetYear())
+
+	comp := comparator.Comparator{}
+
+	comp.Compare(book, book2, comparator.CompareByYear)
+
+	fmt.Printf("Book title: %s, Author: %s, Year: %d\n", book.Title(), book.Author(), book.Year())
 }
