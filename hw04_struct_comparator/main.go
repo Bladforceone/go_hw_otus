@@ -8,12 +8,13 @@ import (
 )
 
 func main() {
-	book := types.Book{}
+	book := types.NewBook()
 	book.SetTitle("kNigga")
 	book.SetAuthor("Ryan Gosling")
 	book.SetYear(2049)
 
-	book2 := book
+	book2 := types.NewBook()
+	book2.CopyBook(book)
 	book2.SetYear(1917)
 
 	comp := comparator.Comparator{Mode: comparator.CompareByYear}

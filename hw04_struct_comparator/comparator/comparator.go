@@ -18,7 +18,7 @@ type Comparator struct {
 	Mode CompareMode
 }
 
-func (c Comparator) Compare(b1, b2 types.Book) (bool, error) {
+func (c Comparator) Compare(b1, b2 *types.Book) (bool, error) {
 	switch c.Mode {
 	case CompareByRate:
 		return b1.Rate() > b2.Rate(), nil

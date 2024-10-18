@@ -9,8 +9,24 @@ type Book struct {
 	rate   float32
 }
 
-func (b *Book) SetID(id int) {
-	b.id = id
+func NewBook() *Book {
+	b := new(Book)
+	b.id = 0
+	b.title = "empty"
+	b.author = "empty"
+	b.year = 0
+	b.size = 0
+	b.rate = 0.0
+	return b
+}
+
+func (b *Book) CopyBook(other *Book) {
+	b.id = other.id
+	b.title = other.title
+	b.author = other.author
+	b.year = other.year
+	b.size = other.size
+	b.rate = other.rate
 }
 
 func (b *Book) ID() int {
