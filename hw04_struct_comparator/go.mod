@@ -1,3 +1,3 @@
-module github.com/fixme_my_friend/hw04_struct_comparator
+module github.com/Bladforceone/go_hw_otus/hw04_struct_comparator
 
 go 1.20
