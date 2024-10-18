@@ -14,11 +14,17 @@ const (
 	CompareByRate
 )
 
-type Comparator struct {
+type comparator struct {
 	Mode CompareMode
 }
 
-func (c Comparator) Compare(b1, b2 *types.Book) (bool, error) {
+func NewComparator(mod CompareMode) *comparator {
+	c := new(comparator)
+	c.Mode = mod
+	return c
+}
+
+func (c *comparator) Compare(b1, b2 types.Book) (bool, error) {
 	switch c.Mode {
 	case CompareByRate:
 		return b1.Rate() > b2.Rate(), nil
