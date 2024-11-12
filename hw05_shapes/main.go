@@ -11,10 +11,10 @@ func calculateArea(f any) (float64, error) {
 	if figure, ok := f.(shape.Shape); ok {
 		s := figure.CalculateArea()
 		return s, nil
-	} else {
-		err := errors.New("переданный объект функции calculateArea, не является фигурой")
-		return 0, err
 	}
+
+	err := errors.New("переданный объект функции calculateArea, не является фигурой")
+	return 0, err
 }
 func main() {
 	// Place your code here.
