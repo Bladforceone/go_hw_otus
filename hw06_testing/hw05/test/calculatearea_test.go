@@ -31,7 +31,7 @@ func TestCalculateArea(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got, err := hw05.CalculateArea(test.figure)
-			if err != test.expectedErr {
+			if !errors.Is(err, test.expectedErr) {
 				assert.Error(t, test.expectedErr, err)
 				assert.Equal(t, test.expected, got)
 			} else {

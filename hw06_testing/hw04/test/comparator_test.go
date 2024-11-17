@@ -1,6 +1,7 @@
 package test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/Bladforceone/go_hw_otus/hw06_testing/hw04/comparator"
@@ -47,7 +48,7 @@ func TestComparator(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			comp := comparator.NewComparator(tt.modeComparator)
 			got, err := comp.Compare(tt.book1, tt.book2)
-			if tt.expectedErr != nil {
+			if !errors.Is(err, tt.expectedErr) {
 				assert.Error(t, tt.expectedErr, err)
 				assert.Nil(t, got)
 			} else {
