@@ -33,20 +33,50 @@ func TestComparator(t *testing.T) {
 		expected       bool
 		expectedErr    error
 	}{
-		{name: "CompareRateTrue", book1: BookRateBig, book2: BookRate, modeComparator: comparator.CompareByRate,
-			expected: true, expectedErr: nil},
+		{
+			name:           "CompareRateTrue",
+			book1:          BookRateBig,
+			book2:          BookRate,
+			modeComparator: comparator.CompareByRate,
+			expected:       true,
+			expectedErr:    nil,
+		},
 
-		{name: "CompareYearTrue", book1: BookYearBig, book2: BookYear, modeComparator: comparator.CompareByYear,
-			expected: true, expectedErr: nil},
+		{
+			name:           "CompareYearTrue",
+			book1:          BookYearBig,
+			book2:          BookYear,
+			modeComparator: comparator.CompareByYear,
+			expected:       true,
+			expectedErr:    nil,
+		},
 
-		{name: "CompareSizeTrue", book1: BookSizeBig, book2: BookSize, modeComparator: comparator.CompareBySize,
-			expected: true, expectedErr: nil},
+		{
+			name:           "CompareSizeTrue",
+			book1:          BookSizeBig,
+			book2:          BookSize,
+			modeComparator: comparator.CompareBySize,
+			expected:       true,
+			expectedErr:    nil,
+		},
 
-		{name: "CompareTestFalse", book1: BookRate, book2: BookRateBig, modeComparator: comparator.CompareByRate,
-			expected: false, expectedErr: nil},
+		{
+			name:           "CompareTestFalse",
+			book1:          BookRate,
+			book2:          BookRateBig,
+			modeComparator: comparator.CompareByRate,
+			expected:       false,
+			expectedErr:    nil,
+		},
 
-		{name: "Equal", book1: BookRate, book2: BookRate, modeComparator: comparator.CompareByRate,
-			expected: false, expectedErr: nil},
+		{
+			name:           "Equal",
+			book1:          BookRate,
+			book2:          BookRate,
+			modeComparator: comparator.CompareByRate,
+			expected:       false,
+			expectedErr:    nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
