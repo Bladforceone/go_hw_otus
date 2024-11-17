@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var ERRSIZE = errors.New("uncorrected chessboard size")
+var ErrSize = errors.New("uncorrected chessboard size")
 
 func TestPrintChessboard(t *testing.T) {
 	tests := []struct {
@@ -18,7 +18,7 @@ func TestPrintChessboard(t *testing.T) {
 		expectedErr error
 	}{
 		{name: "MainTest", size: 5, expected: []string{" # # ", "# # #", " # # ", "# # #", " # # "}, expectedErr: nil},
-		{name: "FatalTest", size: 1, expected: nil, expectedErr: ERRSIZE},
+		{name: "FatalTest", size: 1, expected: nil, expectedErr: ErrSize},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
