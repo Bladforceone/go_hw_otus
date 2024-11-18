@@ -2,6 +2,7 @@ package hw05
 
 import (
 	"errors"
+
 	"github.com/Bladforceone/go_hw_otus/hw06_testing/hw05/shape"
 )
 
