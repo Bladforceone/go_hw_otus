@@ -5,24 +5,26 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"gopkg.in/yaml.v3"
 )
 
 type Book struct {
-	ID     int     `json:"id" xml:"id" yaml:"id"`
-	Title  string  `json:"title" xml:"title" yaml:"title"`
-	Author string  `json:"author" xml:"author" yaml:"author"`
-	Year   int     `json:"year" xml:"year" yaml:"year"`
-	Size   int     `json:"size" xml:"size" yaml:"size"`
-	Rate   float32 `json:"rate" xml:"rate" yaml:"rate"`
-	Sample []byte  `json:"sample" xml:"sample" yaml:"sample"`
+	ID     int     `json:"id,omitempty" xml:"id,omitempty" yaml:"id,omitempty" bson:"id,omitempty"`
+	Title  string  `json:"title,omitempty" xml:"title,omitempty" yaml:"title,omitempty" bson:"title"`
+	Author string  `json:"author,omitempty" xml:"author,omitempty" yaml:"author,omitempty" bson:"author"`
+	Year   int     `json:"year,omitempty" xml:"year,omitempty" yaml:"year,omitempty" bson:"year,omitempty"`
+	Size   int     `json:"size,omitempty" xml:"size,omitempty" yaml:"size,omitempty" bson:"size,omitempty"`
+	Rate   float32 `json:"rate,omitempty" xml:"rate,omitempty" yaml:"rate,omitempty" bson:"rate,omitempty"`
+	Sample []byte  `json:"sample,omitempty" xml:"sample,omitempty" yaml:"sample,omitempty" bson:"sample,omitempty"`
 }
 
 func UnmarshalJSONSlices(data []byte) ([]Book, error) {
-	var tmp []Book
-	return tmp, json.Unmarshal(data, &tmp)
+	var books []Book
+	err := json.Unmarshal(data, &books)
+	return books, err
 }
 
 func MarshalJSONSlices(books []Book) ([]byte, error) {
@@ -30,48 +32,64 @@ func MarshalJSONSlices(books []Book) ([]byte, error) {
 }
 
 func UnmarshalXMLSlices(data []byte) ([]Book, error) {
-	var tmp []Book
-	return tmp, xml.Unmarshal(data, &tmp)
+	var booksWrapper struct {
+		Books []Book `xml:"book"`
+	}
+	err := xml.Unmarshal(data, &booksWrapper)
+	return booksWrapper.Books, err
 }
 
 func MarshalXMLSlices(books []Book) ([]byte, error) {
-	return xml.Marshal(books)
+	booksWrapper := struct {
+		XMLName xml.Name `xml:"books"`
+		Books   []Book   `xml:"book"`
+	}{
+		Books: books,
+	}
+	return xml.Marshal(booksWrapper)
 }
 
 func UnmarshalYAMLSlices(data []byte) ([]Book, error) {
-	var tmp []Book
-	return tmp, yaml.Unmarshal(data, &tmp)
+	var books []Book
+	err := yaml.Unmarshal(data, &books)
+	return books, err
 }
 
-func MarshalYAMLSlices(books Book) ([]byte, error) {
+func MarshalYAMLSlices(books []Book) ([]byte, error) {
 	return yaml.Marshal(books)
 }
 
-func (b *Book) UnmarshalGob(data []byte) error {
-	dec := gob.NewDecoder(bytes.NewReader(data))
-	if err := dec.Decode(b); err != nil {
-		return err
+func DeserializeFromGOB(data []byte, v interface{}) error {
+	buf := bytes.NewBuffer(data)
+	dec := gob.NewDecoder(buf)
+	err := dec.Decode(v)
+	if err != nil {
+		return fmt.Errorf("failed to deserialize: %w", err)
 	}
 	return nil
 }
-
-func (b *Book) MarshalGob() ([]byte, error) {
+func SerializeToGOB(v interface{}) ([]byte, error) {
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
-	if err := enc.Encode(b); err != nil {
-		return nil, err
+	err := enc.Encode(v)
+	if err != nil {
+		return nil, fmt.Errorf("failed to serialize: %w", err)
 	}
 	return buf.Bytes(), nil
 }
 
-func (b *Book) UnmarshalBSON(data []byte) error {
-	var tmp Book
-	if err := bson.Unmarshal(data, &tmp); err != nil {
-		return err
+func SerializeToBSON(v interface{}) ([]byte, error) {
+	data, err := bson.Marshal(v)
+	if err != nil {
+		return nil, fmt.Errorf("failed to serialize: %w", err)
 	}
-	return nil
+	return data, nil
 }
 
-func (b *Book) MarshalBSON() ([]byte, error) {
-	return bson.Marshal(b)
+func DeserializeFromBSON(data []byte, v interface{}) error {
+	err := bson.Unmarshal(data, v)
+	if err != nil {
+		return fmt.Errorf("failed to deserialize: %w", err)
+	}
+	return nil
 }
