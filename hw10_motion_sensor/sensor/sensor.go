@@ -7,9 +7,13 @@ import (
 
 func SensData(dataChan chan<- int) {
 	defer close(dataChan)
-	for i := 0; i < 600; i++ {
-		dataChan <- rand.Intn(1000)
-		time.Sleep(100 * time.Millisecond)
+	timeout := time.NewTimer(time.Minute)
+	for {
+		select {
+		case dataChan <- rand.Intn(1000): //nolint:gosec
+		case <-timeout.C:
+			return
+		}
 	}
 }
 
