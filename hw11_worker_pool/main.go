@@ -10,10 +10,16 @@ import (
 func main() {
 	var mutex sync.Mutex
 	var wg sync.WaitGroup
+	wg.Add(10)
 	counter := 0
 	for i := 0; i < 10; i++ {
-		wg.Add(1)
-		go worker.DoWork(i, &counter, &mutex, &wg)
+		go func(i int) {
+			defer wg.Done()
+			defer mutex.Unlock()
+			mutex.Lock()
+			worker.DoWork(&counter)
+			fmt.Printf("Worker %d: %d\n", i, counter)
+		}(i)
 	}
 	wg.Wait()
 	fmt.Printf("Counter: %d\n", counter)
