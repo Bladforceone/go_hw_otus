@@ -51,8 +51,8 @@ func TestAnalyze(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			stats, err := Analyze(tmpFile.Name(), tt.level)
-			require.NoError(t, err, "Ошибка при анализе лог-файла")
+			stats, errGet := Analyze(tmpFile.Name(), tt.level)
+			require.NoError(t, errGet, "Ошибка при анализе лог-файла")
 			assert.Equal(t, tt.expected, stats, "Некорректный результат анализа логов")
 		})
 	}
