@@ -38,10 +38,6 @@ func main() {
 		output = os.Getenv("LOG_ANALYZER_OUTPUT")
 	}
 
-	if output == "" {
-		output = os.Getenv("LOG_ANALYZER_OUTPUT")
-	}
-
 	err = loganalyze.Print(stats, output)
 	if err != nil {
 		fmt.Println(err)
