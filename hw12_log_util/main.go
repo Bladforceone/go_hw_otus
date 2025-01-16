@@ -27,15 +27,19 @@ func main() {
 		level = os.Getenv("LOG_ANALYZER_LEVEL")
 	}
 
-	output := *outputFl
-	if output == "" {
-		output = os.Getenv("LOG_ANALYZER_OUTPUT")
-	}
-
 	stats, err := loganalyze.Analyze(filepath, level)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	}
+
+	output := *outputFl
+	if output == "" && flag.Lookup("output") != nil {
+		output = os.Getenv("LOG_ANALYZER_OUTPUT")
+	}
+
+	if output == "" {
+		output = os.Getenv("LOG_ANALYZER_OUTPUT")
 	}
 
 	err = loganalyze.Print(stats, output)

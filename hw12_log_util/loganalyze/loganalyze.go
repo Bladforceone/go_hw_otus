@@ -34,6 +34,13 @@ func Analyze(filepath, level string) ([]string, error) {
 }
 
 func Print(stats []string, output string) error {
+	if output == "" {
+		for _, stat := range stats {
+			fmt.Println(stat)
+		}
+		return nil
+	}
+
 	file, errOpen := os.OpenFile(output, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if errOpen != nil {
 		return fmt.Errorf("error opening file: %w", errOpen)
