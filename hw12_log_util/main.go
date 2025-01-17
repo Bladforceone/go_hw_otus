@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
+	"log"
 	"os"
 
 	"github.com/Bladforceone/go_hw_otus/hw12_log_util/loganalyze"
@@ -39,23 +39,20 @@ func main() {
 		output = os.Getenv("LOG_ANALYZER_OUTPUT")
 	}
 
-	var writer io.Writer
-
 	if output == "" {
-		writer = os.Stdout
+		if err = loganalyze.Print(os.Stdout, stats); err != nil {
+			log.Fatalf("error printing statistics: %v", err)
+		}
 	} else {
-		file, err := os.OpenFile(output, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-		if err != nil {
-			fmt.Println("error opening file:", err)
-			return
+		file, errFile := os.OpenFile(output, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
+		if errFile != nil {
+			fmt.Println("error opening file:", errFile)
+			os.Exit(1)
 		}
 		defer file.Close()
-		writer = file
-	}
 
-	err = loganalyze.Print(writer, stats)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		if err = loganalyze.Print(file, stats); err != nil {
+			log.Fatalf("error printing statistics: %v", err)
+		}
 	}
 }

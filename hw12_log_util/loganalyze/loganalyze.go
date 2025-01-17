@@ -41,7 +41,7 @@ func Print(w io.Writer, stats []string) error {
 
 	for _, stat := range stats {
 		if _, err := fmt.Fprintln(w, stat); err != nil {
-			return fmt.Errorf("error writing: %v", err)
+			return fmt.Errorf("error writing: %w", err)
 		}
 	}
 	return nil
