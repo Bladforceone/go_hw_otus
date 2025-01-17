@@ -3,6 +3,7 @@ package loganalyze
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 )
@@ -33,24 +34,14 @@ func Analyze(filepath, level string) ([]string, error) {
 	return stats, err
 }
 
-func Print(stats []string, output string) error {
-	if output == "" {
-		for _, stat := range stats {
-			fmt.Println(stat)
-		}
-		return nil
+func Print(w io.Writer, stats []string) error {
+	if w == nil {
+		return fmt.Errorf("writer is nil")
 	}
-
-	file, errOpen := os.OpenFile(output, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
-	if errOpen != nil {
-		return fmt.Errorf("error opening file: %w", errOpen)
-	}
-	defer file.Close()
 
 	for _, stat := range stats {
-		_, err := file.WriteString(stat + "\n")
-		if err != nil {
-			return fmt.Errorf("error writing to file: %w", err)
+		if _, err := fmt.Fprintln(w, stat); err != nil {
+			return fmt.Errorf("error writing: %v", err)
 		}
 	}
 	return nil
