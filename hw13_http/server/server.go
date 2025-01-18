@@ -26,13 +26,13 @@ func main() {
 	http.HandleFunc("/v1/createUser", createUser)
 
 	if err := http.ListenAndServe(*ip+":"+*port, nil); err != nil {
-		fmt.Printf("ошибка нахуй: %v", err)
+		fmt.Printf("%v", err)
 	}
 }
 
-func hello(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprint(w, "Hello, i work")
-	log.Print("Написал идиоту что работаю")
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hello world!")
+	log.Printf("Было отправлено приветствие %s", r.URL.Host)
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(user)
-	log.Println("Отправил идиоту данные пользователя")
+	log.Printf("Отправлены данные пользователя: %+v", user)
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
@@ -66,8 +66,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("Создан новый пользователь")
 	fmt.Printf("New user: %+v\n", newUser)
 
 	w.WriteHeader(http.StatusCreated)
-	log.Println("Идиот прислал пользователя")
 }
