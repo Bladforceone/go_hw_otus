@@ -6,13 +6,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-)
 
-type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-}
+	"github.com/Bladforceone/go_hw_otus/hw13_http/types"
+)
 
 func main() {
 	ip := flag.String("ip", "127.0.0.1", "IP address")
@@ -43,7 +39,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	user := User{
+	user := types.User{
 		ID:   1,
 		Name: "Райн Гослинг",
 		Age:  52,
@@ -59,7 +55,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var newUser User
+	var newUser types.User
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "error decoding JSON %w", err)
