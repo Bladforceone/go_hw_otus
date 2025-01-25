@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -20,33 +22,51 @@ func main() {
 
 	fullpath := *url + *path
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	switch strings.ToUpper(*method) {
 	case "GET":
-		sendGetRequest(fullpath)
+		sendGetRequest(ctx, fullpath)
 	case "POST":
-		sendPostRequest(fullpath, *data)
+		sendPostRequest(ctx, fullpath, *data)
 	default:
 		fmt.Println("Клиент поддерживает только POST или GET методы")
-		os.Exit(1)
+		return
 	}
 }
 
-func sendGetRequest(url string) {
-	resp, err := http.Get(url)
+func sendGetRequest(ctx context.Context, url string) {
+	client := &http.Client{}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
-		fmt.Printf("Ошибка при выполнении Get-запроса: %v\n", err)
-		os.Exit(1)
+		fmt.Printf("Ошибка при создании GET-запроса: %v", err)
+		return
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("Ошибка при выполнении GET-запроса: %v", err)
+		return
 	}
 	defer resp.Body.Close()
 
 	printJSONResponse(resp)
 }
 
-func sendPostRequest(url, data string) {
-	resp, err := http.Post(url, "application/json", strings.NewReader(data))
+func sendPostRequest(ctx context.Context, url, data string) {
+	client := &http.Client{}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, strings.NewReader(data))
 	if err != nil {
-		fmt.Printf("Ошибка при выполнении Post-запроса: %v\n", err)
-		os.Exit(1)
+		fmt.Printf("Ошибка при создании POST-запроса: %v", err)
+		return
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("Ошибка при выполнении POST-запроса: %v", err)
 	}
 	defer resp.Body.Close()
 
