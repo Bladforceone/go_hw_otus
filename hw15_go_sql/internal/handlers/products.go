@@ -35,7 +35,7 @@ func (h *ProductHandler) ProductCreate(c *gin.Context) {
 }
 
 func (h *ProductHandler) GetProduct(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.ParseInt(c.Param("id"), 10, 32) // 10 - система счисления, 32 - битность
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
 		return

@@ -20,7 +20,9 @@ func NewRepository(dbPool *pgxpool.Pool) *Repository {
 	}
 }
 
-func (r *Repository) ProductCreate(ctx context.Context, name string, price pgtype.Numeric, stock int32) (*db.Product, error) {
+func (r *Repository) ProductCreate(ctx context.Context, name string,
+	price pgtype.Numeric, stock int32,
+) (*db.Product, error) {
 	product, err := r.Queries.ProductCreate(ctx, db.ProductCreateParams{
 		Name:  name,
 		Price: price,
